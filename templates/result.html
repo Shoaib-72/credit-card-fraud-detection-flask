@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result - Fraud Detection</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">🔒 FraudShield AI</a>
+            <span class="navbar-text text-light">Analysis Result</span>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                
+                <div class="card p-5 bg-white shadow-sm">
+                    <h2 class="fw-bold mb-4">Transaction Analysis Result</h2>
+
+                    {% if prediction == 1 %}
+                        <!-- Fraud Alert -->
+                        <div class="alert alert-danger p-4 rounded-3" role="alert">
+                            <h3 class="alert-heading fw-bold">⚠️ High Risk: Fraudulent Transaction!</h3>
+                            <p class="mb-0 fs-5">This transaction displays patterns consistent with credit card fraud.</p>
+                        </div>
+                    {% else %}
+                        <!-- Legitimate Transaction -->
+                        <div class="alert alert-success p-4 rounded-3" role="alert">
+                            <h3 class="alert-heading fw-bold">✅ Safe: Legitimate Transaction</h3>
+                            <p class="mb-0 fs-5">This transaction appears normal and secure.</p>
+                        </div>
+                    {% endif %}
+
+                    {% if probability is not none %}
+                        <div class="my-4">
+                            <h5 class="text-muted">Estimated Fraud Probability</h5>
+                            <h2 class="fw-bold {% if prediction == 1 %}text-danger{% else %}text-success{% endif %}">
+                                {{ "%.2f"|format(probability * 100) }}%
+                            </h2>
+                        </div>
+                    {% endif %}
+
+                    <div class="mt-4">
+                        <a href="/" class="btn btn-primary btn-lg w-100">Make Another Prediction</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Credit Card Fraud Detection Project | Built with Flask & Scikit-Learn</p>
+    </footer>
+
+    <!-- Bootstrap JS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
